@@ -1,0 +1,58 @@
+name: Upload Roblox Place
+
+on:
+  push:
+    paths:
+      - 'place.rbxlx'
+  workflow_dispatch:
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Upload with curl XML
+        id: curl-xml
+        continue-on-error: true
+        run: |
+          curl --verbose --location --request POST \
+            "https://apis.roblox.com/universes/v1/34505142/places/58857285/versions?versionType=Published" \
+            --header "x-api-key: RolRzwPoUEilgGb2/SvJv7K5o5sLgJT0LDiDyM4b8OgfQk5VZXlKaGJHY2lPaUpTVXpJMU5pSXNJbXRwWkNJNkluTnBaeTB5TURJeExUQTNMVEV6VkRFNE9qVXhPalE1V2lJc0luUjVjQ0k2SWtwWFZDSjkuZXlKaGRXUWlPaUpTYjJKc2IzaEpiblJsY201aGJDSXNJbWx6Y3lJNklrTnNiM1ZrUVhWMGFHVnVkR2xqWVhScGIyNVRaWEoyYVdObElpd2lZbUZ6WlVGd2FVdGxlU0k2SWxKdmJGSjZkMUJ2VlVWcGJHZEhZakl2VTNaS2RqZExOVzgxYzB4blNsUXdURVJwUkhsTk5HSTRUMmRtVVdzMVZpSXNJbTkzYm1WeVNXUWlPaUl4T1RBMk1qTTFNQ0lzSW1WNGNDSTZNVGMzT0RRd05ESTNOeXdpYVdGMElqb3hOemM0TkRBd05qYzNMQ0p1WW1ZaU9qRTNOemcwTURBMk56ZDkuSHM2akVrMThkMmJUVkx0VHczeFN3NXN4MnpWdzJVMEd2eG5xX2RELVJjWnV1bnNsc09QQU0zalVVaVVWWlo5TW82eUtxQ2dqaHdfVmJqSHRYUjIzNlhzdklQQ2FuemlXZU9Ia0s1ZmRvOUN0RmFwNHFaRkhuejFsOTJZc05lRkdZZWNNaHpqNWc5THAtMHNuRlJLNTJVNDl6MWpFYUhpMjY2ZlFzZGgzSzBYZ1ZOckdaaFBUTU9iRW95U0FSaC1idEMtdFNfMDdfVmtPQmhWNkZfcWthb1I5RXR2WUxONERaZHJPRk1pSktobHF6U3I1d043a1ZUbWVPMEdVSlZjRTFJWFB3dVBsaU5CRm5Ic0ZObmM2MTRFRUEtYXMzZkRJclFILUFKNXBQOUFTb1ZpaWRtYmxyWkdpR1dQUTQ3U3FRZExVemNYOFlfTlQ4SzVhQUFwOGJn" \
+            --header 'Content-Type: application/xml' \
+            --data-binary '@place.rbxlx' || echo "XML failed"
+
+      - name: Upload with curl octet-stream
+        id: curl-octet
+        continue-on-error: true
+        run: |
+          curl --verbose --location --request POST \
+            "https://apis.roblox.com/universes/v1/34505142/places/58857285/versions?versionType=Published" \
+            --header "x-api-key: RolRzwPoUEilgGb2/SvJv7K5o5sLgJT0LDiDyM4b8OgfQk5VZXlKaGJHY2lPaUpTVXpJMU5pSXNJbXRwWkNJNkluTnBaeTB5TURJeExUQTNMVEV6VkRFNE9qVXhPalE1V2lJc0luUjVjQ0k2SWtwWFZDSjkuZXlKaGRXUWlPaUpTYjJKc2IzaEpiblJsY201aGJDSXNJbWx6Y3lJNklrTnNiM1ZrUVhWMGFHVnVkR2xqWVhScGIyNVRaWEoyYVdObElpd2lZbUZ6WlVGd2FVdGxlU0k2SWxKdmJGSjZkMUJ2VlVWcGJHZEhZakl2VTNaS2RqZExOVzgxYzB4blNsUXdURVJwUkhsTk5HSTRUMmRtVVdzMVZpSXNJbTkzYm1WeVNXUWlPaUl4T1RBMk1qTTFNQ0lzSW1WNGNDSTZNVGMzT0RRd05ESTNOeXdpYVdGMElqb3hOemM0TkRBd05qYzNMQ0p1WW1ZaU9qRTNOemcwTURBMk56ZDkuSHM2akVrMThkMmJUVkx0VHczeFN3NXN4MnpWdzJVMEd2eG5xX2RELVJjWnV1bnNsc09QQU0zalVVaVVWWlo5TW82eUtxQ2dqaHdfVmJqSHRYUjIzNlhzdklQQ2FuemlXZU9Ia0s1ZmRvOUN0RmFwNHFaRkhuejFsOTJZc05lRkdZZWNNaHpqNWc5THAtMHNuRlJLNTJVNDl6MWpFYUhpMjY2ZlFzZGgzSzBYZ1ZOckdaaFBUTU9iRW95U0FSaC1idEMtdFNfMDdfVmtPQmhWNkZfcWthb1I5RXR2WUxONERaZHJPRk1pSktobHF6U3I1d043a1ZUbWVPMEdVSlZjRTFJWFB3dVBsaU5CRm5Ic0ZObmM2MTRFRUEtYXMzZkRJclFILUFKNXBQOUFTb1ZpaWRtYmxyWkdpR1dQUTQ3U3FRZExVemNYOFlfTlQ4SzVhQUFwOGJn" \
+            --header 'Content-Type: application/octet-stream' \
+            --data-binary '@place.rbxlx' || echo "Octet failed"
+
+      - name: Upload with Python
+        id: python-upload
+        continue-on-error: true
+        run: |
+          python3 -c '
+          import requests
+          import sys
+          with open("place.rbxlx", "rb") as f:
+              data = f.read()
+          headers = {
+              "x-api-key": "RolRzwPoUEilgGb2/SvJv7K5o5sLgJT0LDiDyM4b8OgfQk5VZXlKaGJHY2lPaUpTVXpJMU5pSXNJbXRwWkNJNkluTnBaeTB5TURJeExUQTNMVEV6VkRFNE9qVXhPalE1V2lJc0luUjVjQ0k2SWtwWFZDSjkuZXlKaGRXUWlPaUpTYjJKc2IzaEpiblJsY201aGJDSXNJbWx6Y3lJNklrTnNiM1ZrUVhWMGFHVnVkR2xqWVhScGIyNVRaWEoyYVdObElpd2lZbUZ6WlVGd2FVdGxlU0k2SWxKdmJGSjZkMUJ2VlVWcGJHZEhZakl2VTNaS2RqZExOVzgxYzB4blNsUXdURVJwUkhsTk5HSTRUMmRtVVdzMVZpSXNJbTkzYm1WeVNXUWlPaUl4T1RBMk1qTTFNQ0lzSW1WNGNDSTZNVGMzT0RRd05ESTNOeXdpYVdGMElqb3hOemM0TkRBd05qYzNMQ0p1WW1ZaU9qRTNOemcwTURBMk56ZDkuSHM2akVrMThkMmJUVkx0VHczeFN3NXN4MnpWdzJVMEd2eG5xX2RELVJjWnV1bnNsc09QQU0zalVVaVVWWlo5TW82eUtxQ2dqaHdfVmJqSHRYUjIzNlhzdklQQ2FuemlXZU9Ia0s1ZmRvOUN0RmFwNHFaRkhuejFsOTJZc05lRkdZZWNNaHpqNWc5THAtMHNuRlJLNTJVNDl6MWpFYUhpMjY2ZlFzZGgzSzBYZ1ZOckdaaFBUTU9iRW95U0FSaC1idEMtdFNfMDdfVmtPQmhWNkZfcWthb1I5RXR2WUxONERaZHJPRk1pSktobHF6U3I1d043a1ZUbWVPMEdVSlZjRTFJWFB3dVBsaU5CRm5Ic0ZObmM2MTRFRUEtYXMzZkRJclFILUFKNXBQOUFTb1ZpaWRtYmxyWkdpR1dQUTQ3U3FRZExVemNYOFlfTlQ4SzVhQUFwOGJn",
+              "Content-Type": "application/xml"
+          }
+          r = requests.post("https://apis.roblox.com/universes/v1/34505142/places/58857285/versions?versionType=Published", headers=headers, data=data)
+          print("Status:", r.status_code)
+          print(r.text)
+          if r.status_code == 200:
+              print("SUCCESS with XML")
+              sys.exit(0)
+          ' || echo "Python XML failed"
+
+      - name: Final Status
+        run: echo "Kaikki metodit yritetty. Tarkista logi Actions-välilehdeltä."
